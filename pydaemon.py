@@ -86,7 +86,8 @@ class Daemon:
 
         try: # check for runstate with pidfile
             with open(self.pidfile, 'w+') as pf:
-                pid = int(pf.read().strip())
+                raw = pf.read().strip()
+                pid = int(raw) if raw.isdigit() else None
         except IOError:
             self.logerr("Verified unique application instance")
             pid = None
