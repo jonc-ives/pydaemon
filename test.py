@@ -4,12 +4,7 @@ from pydaemon import Daemon
 
 class Process(Daemon):
 
-	def logerr(self, msg):
-		with open('pythond.log', 'a') as filestr:
-			filestr.write(msg)
-
 	def run(self):
-		self.logerr("running application")
 		while True: pass
 		# try:
 		# 	with open("testlog.txt", "w") as filestr:
