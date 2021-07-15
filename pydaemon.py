@@ -88,7 +88,7 @@ class Daemon:
             with open(self.pidfile, 'w+') as pf:
                 raw = pf.read().strip()
                 pid = int(raw) if raw.isdigit() else None
-        except IOError:
+        except:
             self.logerr("Verified unique application instance")
             pid = None
 
@@ -136,6 +136,5 @@ class Daemon:
    
         def run(self):
             """ This needs to be overridden when Daemon is subclasses
-
             It will only be called after the process is daemonized by start() or restart()"""
-            pass
+            self.logerr("Method 'run' must be overridden when Daemon is subclassed")

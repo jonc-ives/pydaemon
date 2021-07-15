@@ -4,7 +4,7 @@ from pydaemon import Daemon
 
 class Process(Daemon):
 
-	def run():
+	def run(self):
 		self.logerr("Running application")
 		try:
 			with open("testlog.txt", "w") as filestr:
