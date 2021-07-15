@@ -1,15 +1,15 @@
 
-import os
+import os, sys
 from pydaemon import Daemon
 
 class Process(Daemon):
 
 	def logerr(self, msg):
-		with open('/tmp/pythond.log', 'a') as filestr:
+		with open('pythond.log', 'a') as filestr:
 			filestr.write(msg)
 
 	def run(self):
-		self.logerr("Running application")
+		sys.stdout.write("Running application")
 		while True: pass
 		# try:
 		# 	with open("testlog.txt", "w") as filestr:
@@ -25,5 +25,9 @@ class Process(Daemon):
 		# 	self.logerr("Application error encountered: {0}".format(err))
 
 if __name__ == "__main__":
-	psu = Daemon('/tmp/pythond.pid', '/tmp/pythond.log')
-	psu.start()
+	if len(sys.argv) == 2:
+		psu = Daemon('/tmp/pythond.pid', '/tmp/pythond.log')
+        if 'start' == sys.argv[1]: psu.start()
+        elif 'stop' == sys.argv[1]: psu.stop()
+        elif 'restart' == sys.argv[1]: psu.restart()
+    else: print("usage: %s start|stop|restart" % sys.argv[0])
