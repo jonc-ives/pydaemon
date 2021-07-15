@@ -9,7 +9,7 @@ class Process(Daemon):
 			filestr.write(msg)
 
 	def run(self):
-		sys.stdout.write("Running application")
+		self.logerr("running application")
 		while True: pass
 		# try:
 		# 	with open("testlog.txt", "w") as filestr:
@@ -26,7 +26,7 @@ class Process(Daemon):
 
 if __name__ == "__main__":
 	if len(sys.argv) == 2:
-		psu = Daemon('/tmp/pythond.pid', '/tmp/pythond.log')
+		psu = Process('/tmp/pythond.pid', '/tmp/pythond.log')
 		if 'start' == sys.argv[1]: psu.start()
 		elif 'stop' == sys.argv[1]: psu.stop()
 		elif 'restart' == sys.argv[1]: psu.restart()

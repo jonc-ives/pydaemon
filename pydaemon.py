@@ -99,7 +99,7 @@ class Daemon:
 
         # start the daemon
         self.daemonize()
-        sys.stdout.write("Starting application")
+        self.logerr("Starting application")
         self.run()
 
     def stop(self):
