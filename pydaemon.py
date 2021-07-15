@@ -120,7 +120,7 @@ class Daemon:
             pid = None
 
         if not pid:
-            message = "pidfile {0} does not exist. Daemon not running?\n"
+            message = "kill failed. pidfile {0} does not exist. Daemon not running?\n"
             self.log_warning(message.format(self.pidfile))
             return # usually happens in restarts -- not an error
         
@@ -137,13 +137,13 @@ class Daemon:
                 print(str(err.args))
                 sys.exit(1)
 
-        def restart(self):
-            """ Restart the daemon. """
-            self.stop()
-            self.start()
+    def restart(self):
+        """ Restart the daemon. """
+        self.stop()
+        self.start()
 
    
-        def run(self):
-            """ This needs to be overridden when Daemon is subclasses
-            It will only be called after the process is daemonized by start() or restart()"""
-            self.log_error("Method 'run' must be overridden when Daemon is subclassed")
+    def run(self):
+        """ This needs to be overridden when Daemon is subclasses
+        It will only be called after the process is daemonized by start() or restart()"""
+        self.log_error("Method 'run' must be overridden when Daemon is subclassed")
