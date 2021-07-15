@@ -31,16 +31,18 @@ class Daemon:
 
     def daemonize(self):
         """ Daemonize class. Employs UNIX double fork mechanism """
-        self.logerr("Daemonizing application\n")
+        self.logerr("Daemonizing application")
 
         try:
             pid = os.fork()
             if pid > 0: sys.exit(0)
+            self.logerr("Instantiated primary fork")
         except OSError as err:
-            self.logerr('primary fork failed: {0}\n'.format(err))
+            self.logerr('primary fork failed: {0}'.format(err))
             sys.exit(1)
 
         # decouple from parent env
+        self.logerr("Decoupling process from parent environment")
         os.chdir('/')
         os.setsid()
         os.umask(0)
@@ -48,11 +50,13 @@ class Daemon:
         try:
             pid = os.fork()
             if pid > 0: sys.exit(0)
+            self.logerr("Instantiated redundant fork")
         except OSError as err:
-            self.logerr('redundant fork failed: {0}\n'.format(err))
+            self.logerr('redundant fork failed: {0}'.format(err))
             sys.exit(1)
 
         # redirect std file desc.
+        self.logerr("Redirecting standard file descriptors")
         sys.stdout.flush()
         sys.stderr.flush()
         si = open(os.devnull, 'r')
@@ -63,26 +67,28 @@ class Daemon:
         os.dup2(se.fileno(), sys.stderr.fileno())
 
         # write pidfile
+        self.logerr("Registering process id")
         atexit.register(self.delpid)
         pid = str(os.getpid())
-        with open(self.pidfile, 'w+') as pf:
+        with open(self.pidfile, 'w') as pf:
             pf.write(pid + '\n')
+        self.logerr("Reserved process instance")
 
     def delpid(self):
         os.remove(self.pidfile)
 
     def start(self):
         """ start the daemon """
-        self.logerr("Beginning Daemon Process\n")
 
         # if logging to file, append log header
         if self.logfile: self.append_log_header()
+        self.logerr("Beginning Daemon Process")
 
         try: # check for runstate with pidfile
-            with open(self.pidfile, 'r') as pf:
+            with open(self.pidfile, '+') as pf:
                 pid = int(pf.read().strip())
         except IOError:
-            self.logerr("Verified unique appliaction instance\n")
+            self.logerr("Verified unique application instance")
             pid = None
 
         if pid:
