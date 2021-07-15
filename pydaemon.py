@@ -31,6 +31,7 @@ class Daemon:
 
     def daemonize(self):
         """ Daemonize class. Employs UNIX double fork mechanism """
+        self.logerr("Daemonizing application\n")
 
         try:
             pid = os.fork()
@@ -72,6 +73,7 @@ class Daemon:
 
     def start(self):
         """ start the daemon """
+        self.logerr("Beginning Daemon Process\n")
 
         # if logging to file, append log header
         if self.logfile: self.append_log_header()
@@ -80,6 +82,7 @@ class Daemon:
             with open(self.pidfile, 'r') as pf:
                 pid = int(pf.read().strip())
         except IOError:
+            self.logerr("Verified unique appliaction instance\n")
             pid = None
 
         if pid:
