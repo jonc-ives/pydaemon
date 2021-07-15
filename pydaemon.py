@@ -85,7 +85,7 @@ class Daemon:
         self.logerr("Beginning Daemon Process")
 
         try: # check for runstate with pidfile
-            with open(self.pidfile, '+') as pf:
+            with open(self.pidfile, 'w+') as pf:
                 pid = int(pf.read().strip())
         except IOError:
             self.logerr("Verified unique application instance")
