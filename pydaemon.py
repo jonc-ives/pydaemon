@@ -15,10 +15,8 @@ class Daemon:
     def __init__(self, pidfile, logfile, appname=""):
         self.appname = appname
         self.logfile = logfile
-        self.pidfile = pidfile 
-
-    def append_log_header(self):
-        """ Append process execution header to log file """
+        self.pidfile = pidfile
+        # append session log header
         write_flag = 'a' if os.path.isfile(self.logfile) else "w"
         with open(self.logfile, write_flag) as logstr:
             logstr.write("\nPYDAEMON EXEC %s %s\n" % (datetime.now().strftime("%m:%d:%Y %H:%M:%S"), self.appname))
@@ -90,9 +88,6 @@ class Daemon:
     def start(self):
         """ start the daemon """
 
-        # if logging to file, append log header
-        self.append_log_header()
-
         try: # check for runstate with pidfile
             with open(self.pidfile, 'w+') as pf:
                 raw = pf.read().strip()
@@ -139,7 +134,9 @@ class Daemon:
 
     def restart(self):
         """ Restart the daemon. """
+        self.log_status("killing daemon process...")
         self.stop()
+        self.log_status("restarting daemon process...")
         self.start()
 
    

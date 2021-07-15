@@ -5,18 +5,7 @@ from pydaemon import Daemon
 class Process(Daemon):
 
 	def run(self):
-		try:
-			with open("testlog.txt", "w") as filestr:
-				filestr.write("System daemon active")
-			pid = os.fork()
-			if pid == 0:
-				with open("childlog.txt", "a") as filestr:
-					filestr.write("Success child")
-			else:
-				with open("parentlog.txt", 'a') as filestr:
-					filestr.write("Success parent")
-		except Exception as err:
-			self.log_error("Application error encountered: {0}".format(err))
+		self.log_status("entered application")
 
 if __name__ == "__main__":
 	if len(sys.argv) == 2:
