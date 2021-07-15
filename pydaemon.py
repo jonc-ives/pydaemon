@@ -99,6 +99,7 @@ class Daemon:
 
         # start the daemon
         self.daemonize()
+        print("Running application")
         self.run()
 
     def stop(self):
