@@ -72,7 +72,8 @@ class Daemon:
         pid = str(os.getpid())
         with open(self.pidfile, 'w') as pf:
             pf.write(pid + '\n')
-        self.logerr("Reserved process instance")
+        self.logerr("Reserved process instance, starting application")
+        self.run()
 
     def delpid(self):
         os.remove(self.pidfile)
@@ -99,7 +100,6 @@ class Daemon:
 
         # start the daemon
         self.daemonize()
-        self.run()
 
     def stop(self):
         """ stop the daemon """
