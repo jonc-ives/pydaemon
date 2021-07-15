@@ -22,20 +22,20 @@ class Daemon:
             logstr.write("\nPYDAEMON EXEC %s %s\n" % (datetime.now().strftime("%m:%d:%Y %H:%M:%S"), self.appname))
 
     def log_error(self, msg):
-        with open(self.logfile, 'a') as logstr:
-            logstr.write("[ERROR] %s %s\n" % (datetime.now().strftime("%m:%d:%Y %H:%M:%S"), msg))
+        with open(self.logfile, 'a') as logstream:
+            logstream.write("[ERROR] %s %s\n" % (datetime.now().strftime("%m:%d:%Y %H:%M:%S"), msg))
 
     def log_debug(self, msg):
-        with open(self.logfile, 'a') as logstr:
-            logstr.write("[DEBUG] %s %s\n" % (datetime.now().strftime("%m:%d:%Y %H:%M:%S"), msg))
+        with open(self.logfile, 'a') as logstream:
+            logstream.write("[DEBUG] %s %s\n" % (datetime.now().strftime("%m:%d:%Y %H:%M:%S"), msg))
 
     def log_status(self, msg):
-        with open(self.logfile, 'a') as logstr:
-            logstr.write("[STATUS] %s %s\n" % (datetime.now().strftime("%m:%d:%Y %H:%M:%S"), msg))            
+        with open(self.logfile, 'a') as logstream:
+            logstream.write("[STATUS] %s %s\n" % (datetime.now().strftime("%m:%d:%Y %H:%M:%S"), msg))            
 
     def log_warning(self, msg):
-        with open(self.logfile, 'a') as logstr:
-            logstr.write("[WARNING] %s\t%s\n" % (datetime.now().strftime("%m:%d:%Y %H:%M:%S"), msg))
+        with open(self.logfile, 'a') as logstream:
+            logstream.write("[WARNING] %s\t%s\n" % (datetime.now().strftime("%m:%d:%Y %H:%M:%S"), msg))
 
     def daemonize(self):
         """ Daemonize class. Employs UNIX double fork mechanism """
